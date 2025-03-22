@@ -19,6 +19,7 @@ export const handleSignIn = async (
 ) => {
   try {
     await signIn("credentials", { ...values, redirect: false });
+    return { success: true, message: "User signed in successfully" };
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
@@ -58,11 +59,24 @@ export const handleSignUp = async (
       };
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: { username, email, password: hashedPassword },
     });
-    await signIn("credentials", { email, password, redirect: false });
-    return { message: "User created successfully" };
+    if (!user) {
+      return {
+        success: false,
+        message: "something went wrong",
+      };
+    }
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    return {
+      success: true,
+      message: "User created successfully",
+    };
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {

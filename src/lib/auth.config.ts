@@ -18,6 +18,10 @@ declare module "next-auth" {
 export default {
   providers: [
     Credentials({
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
       authorize: async (credentials) => {
         //validate credentials using zod
         const validateCredentials =
@@ -40,6 +44,7 @@ export default {
           credentials.password as string,
           user.password as string
         );
+        console.log("isPasswordValid", isPasswordValid);
         //if password match return user
         return isPasswordValid ? user : null;
       },

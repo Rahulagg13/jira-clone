@@ -1,6 +1,6 @@
 "use client";
 import { useTransition } from "react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/hooks/use-session";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import {
   DropdownMenu,
@@ -17,12 +17,17 @@ import { useRouter } from "next/navigation";
 const UserButton = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { data: userAuth } = useSession();
-  if (!userAuth || !userAuth.user) return null;
+  const { data: userAuth, isLoading } = useSession();
+  if (isLoading)
+    return (
+      <div className="size-10 rounded-full flex items-center justify-center bg-neutral-200  border-neutral-300">
+        <LoaderCircle className="animate-spin size-4 text-muted-foreground" />
+      </div>
+    );
   const { username, email } = userAuth.user;
   const avatarFallback = username
     ? username[0].toUpperCase()
-    : email[0].toUpperCase();
+    : email?.[0]?.toUpperCase() ?? "U";
 
   const onSubmit = () => {
     startTransition(async () => {

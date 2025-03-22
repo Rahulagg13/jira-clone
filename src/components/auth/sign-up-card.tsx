@@ -47,8 +47,9 @@ export const SignUpCard = () => {
     startTransition(async () => {
       try {
         const response = await handleSignUp(values);
-        if (!response?.success) {
-          toast.error(response?.message);
+        console.log("signup", response);
+        if (!response.success) {
+          toast.error(response.message);
           return;
         }
         toast.success("User Signed Up Successfully");

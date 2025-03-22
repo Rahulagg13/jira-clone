@@ -1,7 +1,5 @@
 export { auth as middleware } from "@/server/auth";
 
-
-
 // See "Matching Paths" below to learn more
 export const config = {
   matcher: [
