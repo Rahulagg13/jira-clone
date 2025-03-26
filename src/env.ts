@@ -6,6 +6,7 @@ export const env = createEnv({
     NEXT_APPWRITE_KEY: z.string().min(1),
     DATABASE_URL: z.string().url(),
     AUTH_SECRET: z.string().min(1),
+    UPLOADTHING_TOKEN: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APPWRITE_ENDPOINT: z.string().url(),
@@ -22,5 +23,6 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
     DATABASE_URL: process.env.DATABASE_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
+    UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
   },
 });

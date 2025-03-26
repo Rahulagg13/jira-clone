@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { auth } from "@/server/auth";
 const Home = async () => {
   const user = await auth();
-  console.log("page user", user);
 
   if (!user) redirect("/sign-in");
 

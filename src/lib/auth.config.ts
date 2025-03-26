@@ -1,4 +1,4 @@
-import Credentials from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
 import bcrypt from "bcrypt";
 import { prisma } from "./prisma";
@@ -17,7 +17,7 @@ declare module "next-auth" {
 }
 export default {
   providers: [
-    Credentials({
+    CredentialsProvider({
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
@@ -44,7 +44,6 @@ export default {
           credentials.password as string,
           user.password as string
         );
-        console.log("isPasswordValid", isPasswordValid);
         //if password match return user
         return isPasswordValid ? user : null;
       },
@@ -62,6 +61,7 @@ export default {
         },
       });
       if (!user) return null;
+      token.name = user.username;
       token.username = user.username;
       token.createdAt = user.createdAt;
       token.updatedAt = user.updatedAt;

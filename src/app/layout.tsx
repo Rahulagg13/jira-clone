@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
-import { auth } from "@/server/auth";
 import { cn } from "@/lib/utils";
 import QueryProvider from "@/components/query-providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -21,16 +19,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-  console.log("layout=", session);
   return (
-    <SessionProvider session={session}>
-      <html lang="en" suppressHydrationWarning>
-        <body className={cn(inter.className, "antialiased min-h-screen")}>
-          <QueryProvider>{children}</QueryProvider>
-          <Toaster richColors />
-        </body>
-      </html>
-    </SessionProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(inter.className, "antialiased min-h-screen")}>
+        <QueryProvider>{children}</QueryProvider>
+        <Toaster richColors />
+      </body>
+    </html>
   );
 }
